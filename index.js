@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
   {
     name: 'Arto Hellas',
@@ -50,6 +52,24 @@ app.get('/info', (req, res) => {
   const info = `Phonebook has info for ${persons.length} persons \n${new Date()}`
   res.send(info)
 })
+
+app.post('/api/persons', (req, res) => {
+  const body = req.body
+  
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId()
+  }
+
+  persons = persons.concat(person)
+
+  res.json(person)
+})
+
+const generateId = () => {
+  return Math.floor(Math.random() * 10000000000)
+}
 
 const PORT = 3001
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`))
