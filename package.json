@@ -1,0 +1,19 @@
+{
+  "name": "phonebook-backend",
+  "version": "0.0.1",
+  "description": "Exercises from full stack open 2020 part 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "Johan Lindkvist",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
