@@ -96,5 +96,5 @@ const generateId = () => {
   return Math.floor(Math.random() * 10000000000)
 }
 
-const PORT = 3001
+const PORT = provess.env.PORT || 3001
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`))
