@@ -78,22 +78,15 @@ app.post('/api/persons', (req, res) => {
       error: 'Number missing'
     })
   }
-
-  if (persons.some(person => person.name === body.name)) {
-    return res.status(400).json({
-      error: `${body.name} already exist in the phonebook`
-    })
-  }
   
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId()
-  }
+  })
 
-  persons = persons.concat(person)
-
-  res.json(person)
+  person.save().then(savedPerson => {
+    res.json(savedPerson)
+  }) 
 })
 
 const generateId = () => {
