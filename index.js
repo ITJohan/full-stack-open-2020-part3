@@ -13,29 +13,6 @@ app.use(express.static('build'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(cors())
 
-let persons = [
-  {
-    name: 'Arto Hellas',
-    number: '040-123456',
-    id: 1
-  },
-  {
-    name: 'Ada Lovelace',
-    number: '39-44-4323234',
-    id: 2
-  },
-  {
-    name: 'Dan Abramov',
-    number: '12-41-34152',
-    id: 3
-  },
-  {
-    name: 'Mary Poppendieck',
-    number: '234-2353457',
-    id: 4
-  }
-]
-
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
     .then(result => {
@@ -50,20 +27,24 @@ app.get('/api/persons', (req, res) => {
   })
 })
 
-app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const person = persons.find(person => person.id === id)
-
-  if (person) {
-    res.json(person)
-  } else {
-    res.status(404).end()
-  }
+app.get('/api/persons/:id', (req, res, next) => {
+  Person.findById(req.params.id)
+    .then(person => {
+      if (person) {
+        res.json(person)
+      } else {
+        res.status(404).end()
+      }
+    }) 
+    .catch(error => next(error))
 })
 
 app.get('/info', (req, res) => {
-  const info = `Phonebook has info for ${persons.length} persons \n${new Date()}`
-  res.send(info)
+  Person.find({})
+    .then(persons => {
+      const info = `Phonebook has info for ${persons.length} persons \n${new Date()}`
+      res.send(info)
+    })
 })
 
 app.post('/api/persons', (req, res) => {
@@ -105,10 +86,6 @@ app.put('/api/persons/:id', (req, res, next) => {
     })
     .catch(error => next(error))
 })
-
-const generateId = () => {
-  return Math.floor(Math.random() * 10000000000)
-}
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)

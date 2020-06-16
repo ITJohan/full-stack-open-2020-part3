@@ -13,3 +13,11 @@ Content-Type: application/json
   "name": "Astrid Lindgren",
   "number": "761-1243613"
 }
+
+###
+
+GET http://localhost:3001/api/persons/5ee8be3d64889c3011713bae
+
+###
+
+GET http://localhost:3001/info
