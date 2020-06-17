@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
 const Person = require('./models/person')
-const { response } = require('express')
 
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 
@@ -35,7 +36,7 @@ app.get('/api/persons/:id', (req, res, next) => {
       } else {
         res.status(404).end()
       }
-    }) 
+    })
     .catch(error => next(error))
 })
 
@@ -49,7 +50,7 @@ app.get('/info', (req, res) => {
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-  
+
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -58,7 +59,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save()
     .then(savedPerson => {
       response.json(savedPerson)
-    }) 
+    })
     .catch(error => next(error))
 })
 
